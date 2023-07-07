@@ -1,10 +1,14 @@
 from sentence_transformers import SentenceTransformer, util
 import telebot
+import os
+from dotenv import load_dotenv
 
-bot = telebot.TeleBot("6323403215:AAHQ54wwRphWWPQVf9z5Lh8zgl9mLwNNOoI")
+load_dotenv()
+
+bot = telebot.TeleBot(str(os.getenv("TOKEN")))
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-questions = [['Как оформить заказ?', "Чтобы оформить зака перейдите по ссылке ниже:"],
+questions = [['Как оформить заказ?', "Чтобы оформить зака перейдите по ссылке ниже:","" ],
              ["Как заказать товар?", "Для заказа товара перейдите по ссылке ниже:"],
              ["Как купить товар?", "Для покупки товара перейдите по ссылке ниже:"],
              ["Как я могу заказать что - либо у вашей компании?", "Для заказа товара перейдите по ссылке ниже:"],
@@ -32,7 +36,7 @@ def obrabotcka(message):
 
     if sq[0][1] <= 0.72:
         keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
-        button = telebot.types.InlineKeyboardButton('Связь с оператором', url="https://web.telegram.org/k/#@Astro8989")
+        button = telebot.types.InlineKeyboardButton('Связь с оператором', url=f"{questions[sq[0][0]][2]}")
         button1 = telebot.types.InlineKeyboardButton('Главное меню', callback_data='glav')
         keyboard.add(button, button1)
         bot.send_message(message.chat.id, "Извиите, но я не совсем понял ваш вопрос :(\nПеренаправляю вас на "
@@ -48,24 +52,24 @@ def obrabotcka(message):
 
 @bot.message_handler(commands=["spisok"])
 def admin(message):
-    if message.from_user.id == 1924062793:
+    if message.from_user.id == os.getenv("ID"):
         try:
             file_path = 'file.txt'  # Путь к вашему текстовому файлу
             with open(file_path, 'r') as file:
                 file_content = file.read()
-            bot.send_message(1924062793, file_content, parse_mode="HTML")
+            bot.send_message(os.getenv("ID"), file_content, parse_mode="HTML")
         except Exception as e:
-            bot.send_message(1924062793, "Файл пуст! :(")
+            bot.send_message(os.getenv("ID"), "Файл пуст! :(")
     else:
         bot.send_message(message.chat.id, "Вы не являетесь админом!")
 
 
 @bot.message_handler(commands=["clear"])
 def adm(message):
-    if message.from_user.id == 1924062793:
+    if message.from_user.id == os.getenv("ID"):
         file_to_delete2 = open("file.txt", 'w')
         file_to_delete2.close()
-        bot.send_message(1924062793, "Всё готово!")
+        bot.send_message(os.getenv("ID"), "Всё готово!")
     else:
         bot.send_message(message.chat.id, "Вы не являетесь админом!")
 
