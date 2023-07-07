@@ -25,7 +25,7 @@ def obrabotcka(message):
 
     sq = sorted(sq, key=lambda x: x[1], reverse=True)
 
-    if sq[0][1] <= 0.6:
+    if sq[0][1] <= 0.75:
         keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
         button = telebot.types.InlineKeyboardButton('Связь с оператором', url="https://web.telegram.org/k/#@Astro8989")
         button1 = telebot.types.InlineKeyboardButton('Главное меню', callback_data='glav')
