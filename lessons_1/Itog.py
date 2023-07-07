@@ -36,7 +36,7 @@ def obrabotcka(message):
 
     if sq[0][1] <= 0.72:
         keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
-        button = telebot.types.InlineKeyboardButton('Связь с оператором', url=f"{questions[sq[0][0]][2]}")
+        button = telebot.types.InlineKeyboardButton('Связь с оператором', url="https://web.telegram.org/k/#@Astro8989")
         button1 = telebot.types.InlineKeyboardButton('Главное меню', callback_data='glav')
         keyboard.add(button, button1)
         bot.send_message(message.chat.id, "Извиите, но я не совсем понял ваш вопрос :(\nПеренаправляю вас на "
@@ -44,7 +44,7 @@ def obrabotcka(message):
     else:
         keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
         button = telebot.types.InlineKeyboardButton('Перейти по ссылке',
-                                                    url="https://clck.ru/34uxRv")
+                                                    url="https://sbert.net/docs/usage/semantic_textual_similarity.html")
         button1 = telebot.types.InlineKeyboardButton('Главное меню', callback_data='glav')
         keyboard.add(button, button1)
         bot.send_message(message.chat.id, f"{questions[sq[0][0]][1]}", reply_markup=keyboard)
@@ -52,24 +52,24 @@ def obrabotcka(message):
 
 @bot.message_handler(commands=["spisok"])
 def admin(message):
-    if message.from_user.id == os.getenv("ID"):
+    if message.from_user.id == int(os.getenv("ID")):
         try:
             file_path = 'file.txt'  # Путь к вашему текстовому файлу
             with open(file_path, 'r') as file:
                 file_content = file.read()
-            bot.send_message(os.getenv("ID"), file_content, parse_mode="HTML")
+            bot.send_message(int(os.getenv("ID")), file_content, parse_mode="HTML")
         except Exception as e:
-            bot.send_message(os.getenv("ID"), "Файл пуст! :(")
+            bot.send_message(int(os.getenv("ID")), "Файл пуст! :(")
     else:
         bot.send_message(message.chat.id, "Вы не являетесь админом!")
 
 
 @bot.message_handler(commands=["clear"])
 def adm(message):
-    if message.from_user.id == os.getenv("ID"):
+    if message.from_user.id == int(os.getenv("ID")):
         file_to_delete2 = open("file.txt", 'w')
         file_to_delete2.close()
-        bot.send_message(os.getenv("ID"), "Всё готово!")
+        bot.send_message(int(os.getenv("ID")), "Всё готово!")
     else:
         bot.send_message(message.chat.id, "Вы не являетесь админом!")
 
